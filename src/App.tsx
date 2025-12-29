@@ -39,6 +39,7 @@ export default function App() {
   const reset = () => {
     setBoard(new Array<string>(9).fill(""));
     setGameOver(false);
+    setMessage("");
   }
 
   return (
