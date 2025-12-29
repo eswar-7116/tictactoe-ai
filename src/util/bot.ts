@@ -18,12 +18,12 @@ export function isTermination(state: string[]) {
     return [isTie, ""];
 }
 
-function minimax(state: string[], isMaximizing: boolean, alpha = -Infinity, beta = Infinity) {
+function minimax(state: string[], isMaximizing: boolean, alpha = -Infinity, beta = Infinity, depth = 0) {
     // Base condition: check if game is over and return score
     const [terminated, winner] = isTermination(state);
     if (terminated) {
-        if (winner === "X") return 1;
-        if (winner === "O") return -1;
+        if (winner === "X") return 10 - depth;
+        if (winner === "O") return depth - 10;
         return 0;
     }
 
@@ -33,7 +33,7 @@ function minimax(state: string[], isMaximizing: boolean, alpha = -Infinity, beta
         for (let i=0; i<9; i++) {
             if (state[i] === "") {
                 state[i] = "X";
-                best = Math.max(best, minimax(state, false, alpha, beta));
+                best = Math.max(best, minimax(state, false, alpha, beta, depth + 1));
                 state[i] = "";
 
                 alpha = Math.max(alpha, best);
@@ -48,7 +48,7 @@ function minimax(state: string[], isMaximizing: boolean, alpha = -Infinity, beta
     for (let i=0; i<9; i++) {
         if (state[i] === "") {
             state[i] = "O";
-            best = Math.min(best, minimax(state, true, alpha, beta));
+            best = Math.min(best, minimax(state, true, alpha, beta, depth + 1));
             state[i] = "";
 
             beta = Math.max(beta, best);
