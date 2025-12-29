@@ -46,7 +46,7 @@ export default function App() {
     <div className="flex flex-col justify-center items-center h-full">
       <header className="mb-10 text-6xl">Tic-Tac-Toe</header>
       <p className="text-2xl font-medium">{message}</p>
-      <main className="m-3">
+      <main className="mt-3 scale-80">
         {[0, 3, 6].map((start) => (
           <div
             className="flex flex-row items-center justify-center"
