@@ -18,7 +18,7 @@ export function isTermination(state: string[]) {
     return [isTie, ""];
 }
 
-function minimax(state: string[], isMaximizing: boolean) {
+function minimax(state: string[], isMaximizing: boolean, alpha = -Infinity, beta = Infinity) {
     // Base condition: check if game is over and return score
     const [terminated, winner] = isTermination(state);
     if (terminated) {
@@ -33,8 +33,11 @@ function minimax(state: string[], isMaximizing: boolean) {
         for (let i=0; i<9; i++) {
             if (state[i] === "") {
                 state[i] = "X";
-                best = Math.max(best, minimax(state, false))
+                best = Math.max(best, minimax(state, false, alpha, beta));
                 state[i] = "";
+
+                alpha = Math.max(alpha, best);
+                if (alpha >= beta) break;  // Prune
             }
         }
         return best;
@@ -45,8 +48,11 @@ function minimax(state: string[], isMaximizing: boolean) {
     for (let i=0; i<9; i++) {
         if (state[i] === "") {
             state[i] = "O";
-            best = Math.min(best, minimax(state, true));
+            best = Math.min(best, minimax(state, true, alpha, beta));
             state[i] = "";
+
+            beta = Math.max(beta, best);
+            if (alpha >= beta) break;  // Prune
         }
     }
     return best;
